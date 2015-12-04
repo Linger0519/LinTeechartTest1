@@ -11,6 +11,7 @@
 #include "CLegend.h"
 #include "CStrings.h"
 #include "CTitles.h"
+#include "teecommander1.h"
 
 // CMyTeechartTest1Dlg ¶Ô»°¿ò
 class CMyTeechartTest1Dlg : public CDialogEx
@@ -39,4 +40,5 @@ protected:
 public:
 	CTchart1 m_Teechart1;
 	CSeries linSeries;
+	CTeecommander1 m_TeeCommand1;
 };

@@ -58,6 +58,7 @@ void CMyTeechartTest1Dlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_TCHART1, m_Teechart1);
+	DDX_Control(pDX, IDC_TEECOMMANDER1, m_TeeCommand1);
 }
 
 BEGIN_MESSAGE_MAP(CMyTeechartTest1Dlg, CDialogEx)
@@ -99,10 +100,7 @@ BOOL CMyTeechartTest1Dlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
-	//for(long i = 0;i<m_Teechart1.get_SeriesCount();i++)
-	//{
-	//	((CSeries)m_Teechart1.Series(i)).Clear();
-	//}
+	m_TeeCommand1.put_ChartLink(m_Teechart1.get_ChartLink());
 
 	m_Teechart1.RemoveAllSeries();
 	

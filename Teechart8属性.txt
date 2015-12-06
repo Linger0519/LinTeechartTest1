@@ -1,0 +1,35 @@
+TeeChart在VC中实时曲线绘制的应用  此博文包含图片	 (2008-07-25 19:42:31)转载▼
+标签： teechart csharp it 杂谈	分类： 计算机技术
+一：TeeChart介绍
+TeeChart Pro是一款提供上百种2D和3D图形风格、40种数学和统计功能、加上无限制的轴和22种调色板组件供选择。提供上百种2D和3D图形风格、40种数学和统计功能、加上无限制的轴和22种调色板组件供您选择。提供上百种2D和3D图形风格、40种数学和统计功能、加上无限制的轴和22种调色板组件供选择,TeeChart还包括一个强大的、完整的编辑对话框，几乎可用于每个组件和子组件，允许你快速的设计复杂图表应用程序。图表编辑器通过TeeCommander组件进一步得到增强，它提供一次点击访问图表编辑器和共同特征。
+ 
+二：主要特性
+●是32位ActiveX控件，可以在VB、Delphi、MS Office等多种编程环境下使用；
+●可以直接存取ODBC数据源；
+●具有11种标准的和9种扩展的Series类型；
+●提供16种统计函数；
+●支持2D和3D效果，支持缩放和滚动；
+●可以将图表输出为Bitmap、Metafile、JPEG 或者Native Chart 格式；
+●支持用户绘图和打印；
+●是集成化的设计工具；
+●提供例子和在线帮助。
+ 
+三：TeeChart类的属性和方法
+TeeChart的主类是TChart。TChart中使用了众多的属性方法和事件，随着版本的升级将越来越丰富。这使得TChart具有非常强大的功能。本文仅简单地介绍其中一些重要类的属性和方法。
+●TChart.Height：图表的高度（像素）； 
+●TChart.Width：图表的宽度（像素）；
+●TChart.Header：图表的题头(Ititles类)；
+●TChart.Series：序列(Series类的数组)；
+●TChart.Axes：坐标轴(Iaxes类)；
+●TChart.Legend：图例(Legend类)；
+●TChart.Panel：面板（Ipanel类）；
+●TChart.Canvas：画布（Canvas类）。
+Series是要显示的数据的主体。在一个图表中可以有一个或多个序列，每个序列可以有不同的显示类型，如Line、Bar、Pie等等。
+Axes控制图表坐标轴的属性，在缺省的情况下，坐标轴可以自动地根据不同的数据设置好标度范围和间隔，当然也可以手工调整。
+Legend控制图表的图例显示。Legend是图表中的一个长方形的用来显示图例标注的区域。可以标注Series的名称或者Series中的项目和数值。
+Panel可以设置图表的背景。可以使用渐变的颜色或者图像文件作为整个图表的背景
+Canvas可以让设计者绘制自己的图形。使用方法和Delphi中的Canvas一样。有TextOut、LineTo、Arc等各种画图的方法可以调用。
+TChart的一些属性实际上是其他类的变量，这些类又具有自己的属性和方法。如Ititles类又具有Text、Color、Font等属性，我们可以用这些属性来设置题头的文本、颜色和字体。
+TeeChart和其他的图表控件相比，有一个非常重要的特点是TeeChart可以把图表保存为一个JPEG格式的图形文件。调用格式如下：
+TChart.Export.SaveToJPEGFile (FileName,Gray,Performance,Quality,Width,Height)
+其中FileName是JPEG文件的保存路径和文件名，路径应该是操作系统中的绝对路径，而不是IIS中的相对路径，IIS对相应的保存目录应该具有写权限。Gray指明是否保存为黑白图像。Performance指明JPEG是生成质量优先还是速度优先。Quality是一个0到100的整数，100时JPEG质量最好，但文件最大；Quality越小则生成的文件越小，但图像质量也随之下降。

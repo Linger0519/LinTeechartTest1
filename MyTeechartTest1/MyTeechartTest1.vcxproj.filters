@@ -69,6 +69,18 @@
     <ClInclude Include="teecommander1.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="CPanel.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CGradient.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CAspect.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CMarks.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyTeechartTest1.cpp">

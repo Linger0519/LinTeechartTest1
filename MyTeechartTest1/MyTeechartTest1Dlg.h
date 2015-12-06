@@ -7,10 +7,16 @@
 
 #include "CSeries.h" 
 #include "CAxis.h"
+#include "CAxisTitle.h"
+#include "CAxisLabels.h"
 #include "CAxes.h"
 #include "CLegend.h"
 #include "CStrings.h"
 #include "CTitles.h"
+#include "CPanel.h"
+#include "CGradient.h"
+#include "CAspect.h"
+#include "CMarks.h"
 #include "teecommander1.h"
 
 // CMyTeechartTest1Dlg ¶Ô»°¿ò
@@ -40,5 +46,9 @@ protected:
 public:
 	CTchart1 m_Teechart1;
 	CSeries linSeries;
+	CAxes linAxes;
+	CLegend linLengend;
+	CTitles linTitle;
+	CPanel linPanel;
 	CTeecommander1 m_TeeCommand1;
 };

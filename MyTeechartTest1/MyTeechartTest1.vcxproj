@@ -99,11 +99,15 @@
     <None Include="res\MyTeechartTest1.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CAspect.h" />
     <ClInclude Include="CAxes.h" />
     <ClInclude Include="CAxis.h" />
     <ClInclude Include="CAxisLabels.h" />
     <ClInclude Include="CAxisTitle.h" />
+    <ClInclude Include="CGradient.h" />
     <ClInclude Include="CLegend.h" />
+    <ClInclude Include="CMarks.h" />
+    <ClInclude Include="CPanel.h" />
     <ClInclude Include="CSeries.h" />
     <ClInclude Include="CStrings.h" />
     <ClInclude Include="CTitles.h" />

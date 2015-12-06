@@ -11,6 +11,7 @@
 #define new DEBUG_NEW
 #endif
 
+#define MAX_DATA_SIZE 20
 
 // 用于应用程序“关于”菜单项的 CAboutDlg 对话框
 
@@ -101,29 +102,102 @@ BOOL CMyTeechartTest1Dlg::OnInitDialog()
 
 	// TODO: 在此添加额外的初始化代码
 	m_TeeCommand1.put_ChartLink(m_Teechart1.get_ChartLink());
+	m_TeeCommand1.put_Color(RGB(233,233,233));
+	m_TeeCommand1.put_Vertical(TRUE);//各个button竖直排列
 
-	m_Teechart1.RemoveAllSeries();
+	//设置图标的宽度和高度
+	//m_Teechart1.put_Height(400);
+	//m_Teechart1.put_Width(600);
+
+	//设置显示模式（3D/2D）
+	((CAspect)m_Teechart1.get_Aspect()).put_View3D(TRUE);
+	((CAspect)m_Teechart1.get_Aspect()).put_Chart3DPercent(30);
+
+	//设置图表的标题（CTitles\CStrings）
+	linTitle = (CTitles)m_Teechart1.get_Header();
+	((CStrings)linTitle.get_Text()).Clear();
+	((CStrings)linTitle.get_Text()).Add(COleVariant(_T("这是Title")));
+
+	//隐藏图例
+	linLengend = (CLegend)m_Teechart1.get_Legend();
+	linLengend.put_Visible(FALSE);
+
+	//设置画布
+	linPanel = (CPanel)m_Teechart1.get_Panel();
+	linPanel.put_Color(RGB(255,235,205));//背景色
+	//linPanel.put_BorderStyle(0);//暂时不清楚意义
+
+	//设置画布为渐变背景
+	((CGradient)linPanel.get_Gradient()).put_Visible(TRUE);
+	((CGradient)linPanel.get_Gradient()).put_StartColor(RGB(182,182,182));
+	((CGradient)linPanel.get_Gradient()).put_EndColor(RGB(250,250,250));
+
+	//设置坐标轴属性
+	linAxes = (CAxes)m_Teechart1.get_Axis();
+	((CAxis)linAxes.get_Bottom()).put_AutomaticMinimum(FALSE);
+	((CAxis)linAxes.get_Bottom()).put_AutomaticMaximum(FALSE);
+	((CAxis)linAxes.get_Bottom()).put_Minimum(0);
+	((CAxis)linAxes.get_Bottom()).put_Maximum(20);
 	
-	m_Teechart1.AddSeries(scArea);
-	linSeries = ((CSeries)m_Teechart1.Series(0));
-	linSeries.FillSampleValues(16);
-	linSeries.put_Title(CString("First Series"));
-	linSeries.put_Color(RGB(25,10,155));
+	((CAxisTitle)((CAxis)linAxes.get_Bottom()).get_Title()).put_Caption(_T("x轴"));
+	((CAxisLabels)((CAxis)linAxes.get_Bottom()).get_Labels()).put_ValueFormat(_T("0.0"));
+	((CAxis)linAxes.get_Bottom()).Scroll(1.0,TRUE);//貌似没起作用
 
+	((CAxis)linAxes.get_Left()).put_AutomaticMinimum(FALSE);
+	((CAxis)linAxes.get_Left()).put_AutomaticMaximum(FALSE);
+	((CAxis)linAxes.get_Left()).put_Minimum(0);
+	((CAxis)linAxes.get_Left()).put_Maximum(300);
+	((CAxisTitle)((CAxis)linAxes.get_Left()).get_Title()).put_Caption(_T("y轴"));
+	((CAxisTitle)((CAxis)linAxes.get_Left()).get_Title()).put_Angle(0);
+
+	//((CAxis)linAxes.get_Depth())
+
+
+	//删除所有曲线
+	m_Teechart1.RemoveAllSeries();
+
+	//构建数据数组
+	COleSafeArray XValues;  
+	COleSafeArray YValues; 
+	DWORD Xnum[] = {MAX_DATA_SIZE};
+	DWORD Ynum[] = {MAX_DATA_SIZE};
+	XValues.Create(VT_R8, 1, Xnum);
+	YValues.Create(VT_R8, 1, Ynum);
+	double tmp;  
+	long index=0;  
+	for(int i=0; i<MAX_DATA_SIZE; i++)  
+	{  
+		tmp = i;  
+		XValues.PutElement(&index, &tmp);  
+		tmp = rand() % 250;  
+		YValues.PutElement(&index, &tmp);  
+		index++;  
+	}
+
+	//添加曲线
 	m_Teechart1.AddSeries(scLine);
-	linSeries = ((CSeries)m_Teechart1.Series(1));
-	linSeries.FillSampleValues(16);
-	linSeries.put_Title(CString("Second Series"));
-	linSeries.put_Color(RGB(125,210,15));
+	linSeries = ((CSeries)m_Teechart1.Series(0));
+	for (int i=0; i<MAX_DATA_SIZE; i++)
+	{
+		linSeries.AddXY(i+1, rand()%250, NULL, RGB(255,0,0));
+	}
+	//linSeries.FillSampleValues(16);
+	//linSeries.AddArray(MAX_DATA_SIZE, XValues, YValues);
+	linSeries.put_Title(CString("First Series"));
+	linSeries.put_Color(RGB(250,10,15));
 
-	//m_Teechart1.Series(0).FillSampleValues(16);//显示横坐标个数
-	//m_Teechart1.Series(0).SetTitle("Area Series");
-	//m_Teechart1.AddSeries(scLine);	
-	//m_Teechart1.Series(1).FillSampleValues(16);
-	//m_Teechart1.Series(1).SetTitle("Line Series");
-	//m_Teechart1.AddSeries(scBar);	
-	//m_Teechart1.Series(2).FillSampleValues(16);
-	//m_Teechart1.Series(2).SetTitle("Bar Series");//设定各种series
+	//是否在图表每个点中显示y值
+	((CMarks)linSeries.get_Marks()).put_Visible(TRUE);
+	((CMarks)linSeries.get_Marks()).put_Style(smsPercent);//设置marks风格，见枚举EMarkStyle
+	((CMarks)linSeries.get_Marks()).put_BackColor(RGB(0,255,0));
+	((CMarks)linSeries.get_Marks()).put_Color(RGB(0,0,255));//这个跟上面到底是什么差别???
+
+	//m_Teechart1.AddSeries(scLine);
+	//linSeries = ((CSeries)m_Teechart1.Series(1));
+	//linSeries.FillSampleValues(16);
+	//linSeries.put_Title(CString("Second Series"));
+	//linSeries.put_Color(RGB(125,210,15));
+
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 

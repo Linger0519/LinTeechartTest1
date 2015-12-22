@@ -156,7 +156,8 @@ BOOL CMyTeechartTest1Dlg::OnInitDialog()
 	//删除所有曲线
 	m_Teechart1.RemoveAllSeries();
 
-	//构建数据数组
+
+	//构建数据数组1方式
 	COleSafeArray XValues;  
 	COleSafeArray YValues; 
 	DWORD Xnum[] = {MAX_DATA_SIZE};
@@ -173,24 +174,52 @@ BOOL CMyTeechartTest1Dlg::OnInitDialog()
 		YValues.PutElement(&index, &tmp);  
 		index++;  
 	}
+	
+
+	//构建数据数组2方式
+	VARIANT vAX,vAY;
+	VARIANT &AX = vAX;
+	VARIANT &AY = vAY;
+	SAFEARRAY *psax;
+	SAFEARRAY *psay;
+	SAFEARRAYBOUND rgsabound;
+	rgsabound.cElements=MAX_DATA_SIZE;
+	rgsabound.lLbound=0;
+	psax=SafeArrayCreate(VT_R8,1,&rgsabound);
+	psay=SafeArrayCreate(VT_R8,1,&rgsabound);
+	AX.vt=VT_ARRAY|VT_R8;
+	AX.parray=psax;
+	AY.vt=VT_ARRAY|VT_R8;
+	AY.parray=psay;
+	double tmp2;
+	for (int i=0; i<MAX_DATA_SIZE; i++)
+	{
+		tmp2 = i;
+		SafeArrayPutElement(psax, (LONG *)&i, &tmp);
+		tmp2 = rand() % 250;
+		SafeArrayPutElement(psay, (LONG *)&i, &tmp);
+	}
+
 
 	//添加曲线
 	m_Teechart1.AddSeries(scLine);
 	linSeries = ((CSeries)m_Teechart1.Series(0));
-	for (int i=0; i<MAX_DATA_SIZE; i++)
+	/*for (int i=0; i<MAX_DATA_SIZE; i++)
 	{
 		linSeries.AddXY(i+1, rand()%250, NULL, RGB(255,0,0));
-	}
+	}*/
 	//linSeries.FillSampleValues(16);
-	//linSeries.AddArray(MAX_DATA_SIZE, XValues, YValues);
+	//linSeries.Clear();
+	linSeries.AddArray(MAX_DATA_SIZE, YValues, XValues);//数组添加的一种方式
+	//linSeries.AddArray(MAX_DATA_SIZE, AX, AY);//数组添加的另一种方式
 	linSeries.put_Title(CString("First Series"));
 	linSeries.put_Color(RGB(250,10,15));
 
 	//是否在图表每个点中显示y值
-	((CMarks)linSeries.get_Marks()).put_Visible(TRUE);
-	((CMarks)linSeries.get_Marks()).put_Style(smsPercent);//设置marks风格，见枚举EMarkStyle
-	((CMarks)linSeries.get_Marks()).put_BackColor(RGB(0,255,0));
-	((CMarks)linSeries.get_Marks()).put_Color(RGB(0,0,255));//这个跟上面到底是什么差别???
+	//((CMarks)linSeries.get_Marks()).put_Visible(TRUE);
+	//((CMarks)linSeries.get_Marks()).put_Style(smsValue);//设置marks风格，见枚举EMarkStyle
+	//((CMarks)linSeries.get_Marks()).put_BackColor(RGB(0,255,0));
+	//((CMarks)linSeries.get_Marks()).put_Color(RGB(0,0,255));//这个跟上面到底是什么差别???
 
 	//m_Teechart1.AddSeries(scLine);
 	//linSeries = ((CSeries)m_Teechart1.Series(1));
